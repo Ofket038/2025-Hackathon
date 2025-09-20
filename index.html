@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TekstilEnerji - Sürdürülebilir Atık Dönüşümü</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            overflow-x: hidden;
+        }
+
+        /* Floating particles animation */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: float 15s infinite linear;
+        }
+
+        .particle:nth-child(1) { left: 10%; top: 20%; width: 3px; height: 3px; background: rgba(76, 175, 80, 0.7); animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; top: 60%; width: 2px; height: 2px; background: rgba(129, 199, 132, 0.6); animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; top: 10%; width: 4px; height: 4px; background: rgba(165, 214, 167, 0.8); animation-delay: 4s; }
+        .particle:nth-child(4) { left: 70%; top: 30%; width: 3px; height: 3px; background: rgba(200, 230, 201, 0.5); animation-delay: 6s; }
+        .particle:nth-child(5) { left: 80%; top: 70%; width: 2px; height: 2px; background: rgba(76, 175, 80, 0.9); animation-delay: 8s; }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(27, 94, 32, 0.2) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(76,175,80,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #4CAF50, #81C784, #A5D6A7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 4s ease-in-out infinite alternate;
+            line-height: 1.1;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.3)); }
+            to { filter: drop-shadow(0 0 40px rgba(76, 175, 80, 0.6)); }
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(45deg, #2E7D32, #388E3C, #4CAF50);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(46, 125, 50, 0.4);
+            background: linear-gradient(45deg, #1B5E20, #2E7D32, #388E3C);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #2E7D32;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+            border-radius: 2px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4CAF50, #81C784, #A5D6A7);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            color: #1B5E20;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #424242;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: linear-gradient(135deg, rgba(27, 94, 32, 0.1) 0%, rgba(46, 125, 50, 0.1) 100%);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 4rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #2E7D32;
+            font-weight: 500;
+        }
+
+        /* Process Steps */
+        .process-container {
+            display: grid;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .process-step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #4CAF50, #66BB6A);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .step-content h3 {
+            font-size: 1.6rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .step-content p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .benefit-item {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .benefit-item h4 {
+            font-size: 1.4rem;
+            color: #1B5E20;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .benefit-item p {
+            color: #424242;
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(27, 94, 32, 0.1) 0%, rgba(46, 125, 50, 0.2) 100%);
+            border-radius: 30px;
+            margin: 4rem 0;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .contact-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            font-size: 1.3rem;
+            color: #4CAF50;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .process-step {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .stats-section {
+                padding: 2rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>TekstilEnerji</h1>
+            <p>Tekstil Atıklarından Sürdürülebilir Enerji Üretimi</p>
+            <a href="#about" class="cta-button">Keşfet</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- About Section -->
+        <section id="about" class="section fade-in">
+            <h2 class="section-title">Biz Kimiz?</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏢 Misyonumuz</h3>
+                    <p>Hızla artan tekstil atıklarını kontrol altına almak, temiz ve güvenli enerji kaynakları üretmek ve döngüsel ekonomi modelini desteklemektir.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🔬 Vizyonumuz</h3>
+                    <p>Gelecekte, her şehir ve fabrikada atık tekstillerin sıfır çöp hedefiyle enerjiye dönüştürüldüğü bir dünya yaratmak.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>💡 Değerlerimiz</h3>
+                    <p><strong>Çevre Dostu:</strong> Atıkları enerjiye çevirerek karbon ayak izini azaltıyoruz.<br>
+                    <strong>İnovasyon:</strong> Termokimyasal dönüşüm teknolojileri ile sürekli yenilik.<br>
+                    <strong>Toplumsal Katkı:</strong> Ekonomik ve sosyal fayda yaratıyoruz.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="section fade-in">
+            <h2 class="section-title">Tekstil Atık Sorunu</h2>
+            
+            <div class="stats-section">
+                <p style="text-align: center; font-size: 1.3rem; color: #2E7D32; margin-bottom: 1rem;">
+                    Her yıl milyonlarca ton tekstil atığı çöp sahalarında son buluyor. Bu dev sorunun çözümü için yenilikçi teknolojiler devreye giriyor.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">92M</span>
+                        <span class="stat-label">Ton yıllık global tekstil atığı</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">87%</span>
+                        <span class="stat-label">Çöplüğe veya yakılıyor</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3.8B</span>
+                        <span class="stat-label">kWh potansiyel enerji üretimi</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+
+            <section class="section fade-in">
+                <h2 class="section-title">Çözümümüz</h2>
+                
+                <div class="process-container">
+                    <!-- Piroliz -->
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>🔥 Piroliz Teknolojisi</h3>
+                            <p>Sentetik tekstil atıkları oksijensiz ortamda kontrollü ısıtma ile değerli enerji kaynaklarına dönüştürülür. 350-450°C sıcaklıkta çalışır.</p>
+                            
+                            <details>
+                                <summary>Daha fazla bilgi</summary>
+                                <p>Piroliz sürecinde kullanılan reaktör tipleri, sıcaklık optimizasyonu, gaz ve sıvı yan ürünlerin ayrılması ve değerlendirilmesi, çevresel etkiler ve enerji verimliliği analizleri burada açıklanır.</p>
+                            </details>
+                        </div>
+                    </div>
+            
+                    <!-- Gazlaştırma -->
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>🔌 Gazlaştırma</h3>
+                            <p>Yüksek sıcaklıkta (900-1100°C) tekstil atıkları doğrudan gaz haline dönüştürülür ve elektrik üretiminde kullanılabilir.</p>
+                            
+                            <details>
+                                <summary>Daha fazla bilgi</summary>
+                                <p>Gazlaştırma reaktörleri, proses kontrolü, oluşan gazın enerji santrallerinde kullanımı, yan ürünlerin yönetimi ve karbon ayak izi analizi burada anlatılır.</p>
+                            </details>
+                        </div>
+                    </div>
+            
+                    <!-- Enerji Üretimi -->
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>⚡ Enerji Üretimi</h3>
+                            <p>Üretilen gazlar elektrik santrallerinde kullanılır, sıvı yakıtlar rafinajda işlenir, katı artıklar inşaat sektöründe değerlendirilir.</p>
+                            
+                            <details>
+                                <summary>Daha fazla bilgi</summary>
+                                <p>Enerji santrallerinde verimlilik hesapları, fosil yakıt azaltımı, ekonomik geri dönüş, sürdürülebilir enerji hedefleri ve çevresel faydalar burada açıklanır.</p>
+                            </details>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        
+
+        <!-- Benefits Section -->
+        <section class="section fade-in">
+            <h2 class="section-title">Faydalarımız</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-icon">♻️</span>
+                    <h4>Döngüsel Ekonomi</h4>
+                    <p>Sentetik kumaşları çöplüklerden ekonomiye geri kazandırır</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <span class="benefit-icon">🌍</span>
+                    <h4>Çevre Dostu</h4>
+                    <p>Tekstil endüstrisinin karbon ayak izini önemli ölçüde küçültür</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <span class="benefit-icon">⚡</span>
+                    <h4>Temiz Enerji</h4>
+                    <p>Fosil yakıt bağımlılığını azaltır, sürdürülebilir enerji üretir</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <span class="benefit-icon">💰</span>
+                    <h4>Ekonomik Değer</h4>
+                    <p>Atık malzemelerden yeni gelir kaynakları yaratır</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Solutions Section -->
+        <section class="section fade-in">
+            <h2 class="section-title">Diğer Çözüm Yolları</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🧵 Mekanik Geri Dönüşüm</h3>
+                    <p>Eski tekstil ürünleri fiziksel olarak parçalanır ve yeni iplik haline getirilir. En yaygın ve maliyet-etkili geri dönüşüm yöntemidir.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>🌿 Biyolojik Geri Dönüşüm</h3>
+                    <p>Doğal enzimlar ve mikroorganizmalar kullanılarak tekstil liflerinin parçalanması. Çevre dostu, kimyasal kullanımı minimumdur.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>👔 Upcycling & Yeniden Tasarım</h3>
+                    <p>Atık tekstillerin yaratıcı tasarımlarla daha değerli ürünlere dönüştürülmesi. Yaratıcılığı teşvik eder ve katma değer yaratır.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>👕 Blockchain Platformları</h3>
+                    <p>Tekstil ürünlerinin yaşam döngüsünü şeffaf şekilde takip eden platformlar. Endüstride sürdürülebilirlik artışı sağlar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section fade-in">
+            <h2>📧 İletişim</h2>
+            <p>Projemiz hakkında daha fazla bilgi almak veya işbirliği fırsatları için:</p>
+            <div class="contact-info">kabakciomer123@gmail.com</div>
+        </section>
+
+    </div>
+
+    <script>
+        // Smooth scrolling for CTA button
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#about').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Animated counters
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const numericValue = parseFloat(target.replace(/[^0-9.]/g, ''));
+                const suffix = target.replace(/[0-9.]/g, '');
+                
+                let current = 0;
+                const increment = numericValue / 60;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= numericValue) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current) + suffix;
+                    }
+                }, 50);
+            });
+        }
+
+        // Start animations when stats section is visible
+        const statsSection = document.querySelector('.stats-section');
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        statsObserver.observe(statsSection);
+
+        // Add some interactive particles on mouse move
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.95) {
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = 'rgba(76, 175, 80, 0.6)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '999';
+            particle.style.animation = 'particleFade 2s ease-out forwards';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 2000);
+        }
+
+        // Add particle fade animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFade {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0) translateY(-100px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+                        
